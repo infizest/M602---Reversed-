@@ -12,8 +12,8 @@ bool generateReport(const CO2Statistics &stats, const std::string &filename) {
     file << "=== CO2 Emissions Report ===\n";
     file << "Average CO2 Emissions: " << stats.avgEmissions << " metric tons\n";
     file << "Lowest CO2 Emissions: " << stats.minEmissions << " (Country: " << stats.minCountry << ")\n";
-    file << "Highest CO2 Emissions: " << stats.maxEmissions << " (Country: " << stats.maxCountry << ")\n";
+    file << "Highest CO2 Emissions: " << stats.maxEmissions << " (Country: " << stats.maxCountry << ")\n"; // ✅ Fixed
 
     file.close();
-    return true;
+    return true; // ✅ Ensure function returns a value
 }
