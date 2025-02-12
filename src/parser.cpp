@@ -6,30 +6,43 @@
 std::vector<CO2Data> parseCSV(const std::string &filename) {
     std::vector<CO2Data> data;
     std::ifstream file(filename);
-    std::string line, country, year, co2;
 
     if (!file.is_open()) {
-        std::cerr << "Could not open file: " << filename << std::endl;
-        return data;
+        throw std::runtime_error("Error opening file: " + filename);
     }
 
-    // Skip the header
-    std::getline(file, line);
+    std::string line;
+    // Read the header and discard it
+    if (std::getline(file, line)) {
+        std::cout << "Skipping header: " << line << std::endl;
+    }
 
     while (std::getline(file, line)) {
         std::stringstream ss(line);
-        std::getline(ss, country, ',');
-        std::getline(ss, year, ',');
-        std::getline(ss, co2, ',');
+        std::string country, yearStr, emissionsStr;
+        
+        if (std::getline(ss, country, ',') &&
+            std::getline(ss, yearStr, ',') &&
+            std::getline(ss, emissionsStr, ',')) {
 
-        if (!country.empty() && !year.empty() && !co2.empty()) {
-            CO2Data entry;
-            entry.country = country;
-            entry.year = std::stoi(year);
-            entry.co2_emissions = std::stod(co2);
-            data.push_back(entry);
+            // Validate and parse values
+            try {
+                int year = std::stoi(yearStr);
+                double emissions = 0.0;
+                
+                // Check if emissionsStr is empty
+                if (!emissionsStr.empty()) {
+                    emissions = std::stod(emissionsStr);
+                }
+
+                // Store the data
+                data.push_back({country, year, emissions});
+            } catch (const std::exception &e) {
+                std::cerr << "Skipping invalid line: " << line << " | Error: " << e.what() << std::endl;
+            }
         }
     }
 
+    file.close();
     return data;
 }
