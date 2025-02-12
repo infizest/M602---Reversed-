@@ -1,16 +1,17 @@
 #ifndef ANALYZER_H
 #define ANALYZER_H
 
-#include "parser.h"
-
+#include <vector>
+#include "parser.h"  
 struct CO2Statistics {
-    double averageCO2;
-    double minCO2;
+    double avgEmissions;
+    double minEmissions;
     std::string minCountry;
-    double maxCO2;
+    double maxEmissions;
     std::string maxCountry;
 };
 
+// Ensure function signature is correct
 CO2Statistics analyzeData(const std::vector<CO2Data> &data);
 
 #endif
