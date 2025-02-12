@@ -1,0 +1,4 @@
+=== CO2 Emissions Report ===
+Average CO2 Emissions: 0 metric tons
+Lowest CO2 Emissions: 0 (Country: Africa)
+Highest CO2 Emissions: 0 (Country: Africa)

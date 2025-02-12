@@ -14,31 +14,27 @@ std::vector<CO2Data> parseCSV(const std::string &filename) {
     std::string line;
     // Read the header and discard it
     if (std::getline(file, line)) {
-        std::cout << "Skipping header: " << line << std::endl;
+        std::cout << "[DEBUG] Skipping header: " << line << std::endl;
     }
 
     while (std::getline(file, line)) {
         std::stringstream ss(line);
         std::string country, yearStr, emissionsStr;
-        
+
         if (std::getline(ss, country, ',') &&
             std::getline(ss, yearStr, ',') &&
             std::getline(ss, emissionsStr, ',')) {
 
-            // Validate and parse values
             try {
                 int year = std::stoi(yearStr);
-                double emissions = 0.0;
-                
-                // Check if emissionsStr is empty
-                if (!emissionsStr.empty()) {
-                    emissions = std::stod(emissionsStr);
-                }
+                double emissions = emissionsStr.empty() ? 0.0 : std::stod(emissionsStr);
 
-                // Store the data
+                // Debug print
+                std::cout << "[DEBUG] Parsed: " << country << ", " << year << ", " << emissions << " metric tons" << std::endl;
+
                 data.push_back({country, year, emissions});
             } catch (const std::exception &e) {
-                std::cerr << "Skipping invalid line: " << line << " | Error: " << e.what() << std::endl;
+                std::cerr << "[ERROR] Skipping invalid line: " << line << " | Error: " << e.what() << std::endl;
             }
         }
     }
