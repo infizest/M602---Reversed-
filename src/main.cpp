@@ -1,4 +1,8 @@
 #include <iostream>
+#include "downloader.h"
+#include "parser.h"
+#include "analyzer.h"
+#include "report_generator.h"
 
 
 int main() {
